@@ -1,36 +1,47 @@
 {
   "name": "electron-quick-start",
   "version": "1.0.0",
-  "description": "A minimal Electron application",
+  "description": "A Electron application using the node implementation of the client for the Android Debug Bridge server to manage your Android device.",
   "main": "main.js",
   "scripts": {
     "start": "electron main.js",
-    "watch": "watchify app/app.js -t babelify -o public/js/bundle.js --debug --verbose &&electron main.js",
+    "bundle": "browserify app/app.js -t babelify -o public/js/bundle.js --debug --verbose",
     "debug": "npm run start -- --devTools=true"
   },
-  "author": "Karel Mácha",
-  "repository": "https://github.com/electron/electron-quick-start",
+  "author": "GitHub",
+  "repository": "",
   "keywords": [
     "Electron",
-    "quick",
-    "start",
-    "tutorial",
-    "demo"
+    "Protonkit",
+    "Android",
+    "ADB",
+    "Android device bridge"
   ],
-  "author": "GitHub",
   "license": "CC0-1.0",
   "devDependencies": {
-    "babel-preset-react": "^6.16.0",
-    "babel-preset-electron": "^0.37.8",
+    "babel-preset-electron": "^1.4.15",
+    "babel-preset-react": "^6.23.0",
     "babelify": "^7.3.0",
-    "electron": "^1.4.1",
+    "browserify": "^14.1.0",
     "electron-reload": "^1.1.0",
-    "adbkit": "^2.7.0",
-    "bluebird": "3.4.7",
-    "react": "^15.4.0",
-    "react-autocomplete": "^1.4.0",
-    "react-dom": "^15.4.0",
-    "adbkit": "^2.7.0",
-    "bluebird": "3.4.7"
+    "gulp": "^3.9.1",
+    "gulp-clean": "^0.3.2",
+    "gulp-filter": "^5.0.0",
+    "gulp-flatten": "^0.3.1",
+    "gulp-inject": "^4.2.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-watch": "^4.3.11",
+    "minimist": "^1.2.0",
+    "photonkit": "^0.1.2",
+    "vinyl-buffer": "^1.0.0",
+    "vinyl-source-stream": "^1.1.0"
+  },
+  "dependencies": {
+    "adbkit": "^2.8.1",
+    "bluebird": "^3.5.0",
+    "electron": "^1.6.2",
+    "react": "^15.4.2",
+    "react-autocomplete": "^1.4.2",
+    "react-dom": "^15.4.2"
   }
 }
