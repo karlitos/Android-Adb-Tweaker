@@ -3,8 +3,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 // using window.require instead of require is one possibility of avoiding the conflict between electron's and browserify's require function.
 const remote = window.require('electron').remote;
-// adb kit
+// Bluebird JavaScript promises library
 const Promise = window.require('bluebird');
+// adb kit
 const adb = window.require('adbkit');
 
 // Header component
@@ -15,6 +16,9 @@ import Footer from './components/footer.component';
 
 // Devices component
 import Devices from './components/devices.component';
+
+// Commands component
+import Commands from './components/commands.component';
 
 //Import Container component
 //import AppContainer from './containers/app.container'
@@ -34,18 +38,18 @@ class App extends React.Component {
         }
     }
 
+    // method handlidng the window closing behavior
     closeApp(){
         const window = remote.getCurrentWindow();
         window.close();
     };
-
+    // handling the selected Android device - updating state
     handleSelectDevice(deviceId) {
-        console.log(deviceId);
         this.setState({
             selectedDevice: deviceId
         });
     };
-
+    // method returning attached devices recognized by ADB
     listAdbDevices(){
         let self = this;
         let detailedDeviceList = [];
@@ -55,6 +59,7 @@ class App extends React.Component {
                 return Promise.map(devices, function(device) {
                     return self.adbClient.getProperties(device.id)
                         .then(function(property) {
+                          // we might keep all properties
                             detailedDeviceList.push({
                                 id: device.id,
                                 manufacturer: property['ro.product.manufacturer'],
@@ -75,29 +80,43 @@ class App extends React.Component {
             });
     };
 
+    handleSelectCommand(event){
+      console.log(event.currentTarget.firstChild.innerText);
+      this.setState({
+          selectedCommand: event.currentTarget.firstChild.innerText
+      });
+    }
+    // call when component mounted (was created an attached)
     componentDidMount() {
         this.listAdbDevices();
     }
 
     render () {
         return (
-            <div>
-                <div className="window">
-                    <Header title={'Title'}
-                            closeApp={this.closeApp.bind(this)}/>
-                    <div className="window-content">
+                <div className="app-wrapping-container">
+                    {/* Attach header component*/}
+                    {/* :: == .bind.this() */}
+                    <Header title={this.props.appTitle}
+                            closeApp={::this.closeApp}/>
+                    {/* Attach window-content photon element wrapper*/}
+                    <div className="window-content window-content-vertical">
                         {/* :: == .bind.this() */}
                         <Devices selectDevice={::this.handleSelectDevice}
                                  listDevices={::this.listAdbDevices}
                                  deviceList={this.state.deviceList}
                                  selectedDevice={this.state.selectedDevice}/>
+                       {/* Attach commands component when device selected*/}
+                       {this.state.selectedDevice && <Commands selectCommand={::this.handleSelectCommand}
+                                                               selectedCommand={this.state.selectedCommand}/>}
                     </div>
+                    {/* Attach footer component */}
                     <Footer selectedDevice={this.state.selectedDevice} />
                 </div>
-            </div>
         );
     }
 }
 
 // Render to index.html
-ReactDOM.render( <App />, document.getElementById('main'));
+// Rendering components directly into document.body is discouraged
+// ReactDOM.render( <App />, document.body);
+ReactDOM.render( <App appTitle="App name"/>, document.getElementById('main-app-window'));

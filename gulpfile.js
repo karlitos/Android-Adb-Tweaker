@@ -2,15 +2,14 @@ const gulp = require('gulp');
 const clean = require('gulp-clean');
 const filter = require('gulp-filter');
 const flatten = require('gulp-flatten');
-const rename = require('gulp-rename')
+const rename = require('gulp-rename');
+const order = require("gulp-order");
 const inject = require('gulp-inject');
 const watch = require('gulp-watch');
 const browserify = require('browserify')
 const babelify = require('babelify')
 const buffer = require('vinyl-buffer');
 const source = require('vinyl-source-stream');
-
-const debug = require('gulp-debug')
 
 /* global configuration */
 const srcDir = './app';
@@ -27,6 +26,10 @@ gulp.task('clean', function () {
 gulp.task('css', function() {
   return gulp.src([srcDir + '/**/*', photonKitDistDir + '/css/**/*!(min)*'], {base: './'})
   .pipe(filter('**/*.css'))
+  .pipe(order([
+      "**/*.css",
+      "**/custom.css"
+  ]))
   .pipe(flatten())
     //.pipe(/* additional steps e.g. minify */)
   .pipe(gulp.dest(destDir + '/styles'))

@@ -1,25 +1,95 @@
-dl.inline-flex {
+.app-wrapping-container {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-flow: column nowrap;
+}
+
+.window-content.window-content-vertical {
+  flex-flow: column nowrap;
+}
+
+.list-group.list-group-not-stretch {
+  align-self: flex-start;
+}
+
+.list-group-header.list-group-header-with-gradient {
+  background: linear-gradient(white 0%, #fff 50%, #ddd 100%)
+}
+
+.list-group-header-with-gradient h4 {
+  text-align: center;
+  margin: 0;
+}
+
+ .list-group-header-with-gradient + .list-group-item, .list-group-header-with-gradient + form {
+    border-top: 1px solid #ddd;
+}
+
+.list-group:last-child {
+    border-bottom: 1px solid #ddd;
+}
+
+.list-group-item:nth-child(even){
+  background: #eee
+}
+
+.list-group-item.no-devices-list-item {
+  text-align: center;
+  padding: 1rem;
+}
+
+.device-list-element {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+}
+
+.device-list-element > .radio {
+  position: absolute;
+  right: 1rem;
+}
+
+.icon.device-list-device-icon {
+  font-size: 250%;
+  margin: 0 2rem 0 1rem;
+}
+
+dl.inline-flex-description-list {
     display: flex;
     flex-flow: row;
     flex-wrap: wrap;
-    width: 50%; /* set the container width*/
+    min-width: 20%; /* set the container width*/
     overflow: visible;
 }
-dl.inline-flex dt {
-    flex: 0 0 50%;
+dl.inline-flex-description-list dt {
+    flex: 0 0 40%;
     text-overflow: ellipsis;
     overflow: hidden;
 }
-dl.inline-flex dd {
+dl.inline-flex-description-list dd {
     margin-left: auto;
     text-align: left;
     text-overflow: ellipsis;
     overflow: hidden;
-    flex: 0 0 50%
+    flex: 0 0 60%
 }
 
-.flex-horizontal {
-    display: flex;
-    align-items: center;
-    justify-content: initial;
+.commands {
+}
+
+.commands h4 {
+  text-align: center;
+  margin: 0;
+  padding: 10px;
+  border-top: 1px solid #ddd;
+  background: linear-gradient(white 0%, #fff 50%, #ddd 100%)
+}
+
+.commands table.table-striped {
+  border-bottom: 1px solid #ddd; 
+}
+.commands table.table-striped tbody td:first-child {
+  font-style: italic;
 }

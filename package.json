@@ -5,8 +5,9 @@
   "main": "main.js",
   "scripts": {
     "start": "electron main.js",
-    "bundle": "browserify app/app.js -t babelify -o public/js/bundle.js --debug --verbose",
-    "debug": "npm run start -- --devTools=true"
+    "debug": "npm run start -- --devTools=true",
+    "start-dev": "concurrently --prefix \"[{name}]\" --names \"HTTP,WATCH\" -c \"bgBlue.bold,bgMagenta.bold\"  \"npm run debug\" \"gulp watch\"",
+    "bundle": "browserify app/app.js -t babelify -o public/js/bundle.js --debug --verbose"
   },
   "author": "GitHub",
   "repository": "",
@@ -23,12 +24,14 @@
     "babel-preset-react": "^6.23.0",
     "babelify": "^7.3.0",
     "browserify": "^14.1.0",
+    "concurrently": "^3.4.0",
     "electron-reload": "^1.1.0",
     "gulp": "^3.9.1",
     "gulp-clean": "^0.3.2",
     "gulp-filter": "^5.0.0",
     "gulp-flatten": "^0.3.1",
     "gulp-inject": "^4.2.0",
+    "gulp-order": "^1.1.1",
     "gulp-rename": "^1.2.2",
     "gulp-watch": "^4.3.11",
     "minimist": "^1.2.0",
