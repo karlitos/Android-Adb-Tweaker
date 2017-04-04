@@ -85,6 +85,8 @@ class App extends React.Component {
 
     // handles the execution of the selected commands
     executeSelectedCommand(command) {
+      // TODO handle device not found - e.g. disconnected
+      // TODO handle command empty or wrong type
       // reference to the selected device
       let device = this.state.selectedDevice;
       this.adbClient.shell(device, command)
@@ -93,7 +95,7 @@ class App extends React.Component {
       // containing all the output.
       .then(adb.util.readAll)
       .then(function(output) {
-        console.log('[%s] %s', device.id, output.toString().trim())
+        console.log('[%s] %s', device, output.toString().trim())
       })
       .then(function() {
         console.log('Done.')

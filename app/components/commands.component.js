@@ -2,15 +2,15 @@ import React from 'react';
 
 const commandList = [
   {
-    command: 'adb reboot',
+    command: 'reboot',
     description: 'ADB REBOOT - Reboot your device'
   },
   {
-    command: 'adb reboot bootloader',
+    command: 'reboot bootloader',
     description: 'ADB REBOOT BOOTLOADER - Reboot your phone into bootloader mode'
   },
   {
-    command: 'adb reboot recovery',
+    command: 'reboot recovery',
     description: 'ADB REBOOT RECOVERY - Reboot your device into recovery mode'
   }
 ]
@@ -29,7 +29,7 @@ class Commands extends React.Component {
     // method constructing the command selection from the command list
     let commandSelection = (
           <select className="form-control command-selection-dropdown"
-                  onClick={::this.handleSelectedCommandChange}
+                  onChange={::this.handleSelectedCommandChange}
                   defaultValue="placeholder">
             <option value="placeholder" disabled>Click to select command</option>
             {commandList.map((item, index) => {
