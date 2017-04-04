@@ -20,6 +20,9 @@ import Devices from './components/devices.component';
 // Commands component
 import Commands from './components/commands.component';
 
+// Packages component
+import Packages from './components/packages.component';
+
 //Import Container component
 //import AppContainer from './containers/app.container'
 
@@ -35,7 +38,9 @@ class App extends React.Component {
         this.state = {
             deviceList: [],
             selectedDevice: undefined,
-            commandOutput: ''
+            adbClientBusy: false,
+            commandOutput: '',
+            installationOutput: ''
         }
     }
 
@@ -88,6 +93,7 @@ class App extends React.Component {
     executeSelectedCommand(command) {
       // TODO handle device not found - e.g. disconnected
       // TODO handle command empty or wrong type
+      // TODO implement adb client busy
       let self = this;
       // reference to the selected device
       let device = this.state.selectedDevice;
@@ -114,6 +120,23 @@ class App extends React.Component {
       event.preventDefault();
     }
 
+    // handles the installation of the selected APKs
+    installSelectedFiles(files) {
+      // TODO implement coient busy - promise map ...
+      let self = this;
+      // reference to the selected device
+      let device = this.state.selectedDevice;
+      files.forEach((file) => {
+        this.adbClient.install(device, file.path)
+        .then(function() {
+          console.log('%s installed on device %s', file.name, device)
+        })
+        .catch(function(err) {
+          console.error('Something went wrong when installing %s on %s: '+  err.stack, file.name, device)
+        })
+      })
+    }
+
     // call when component mounted (was created an attached)
     componentDidMount() {
         this.listAdbDevices();
@@ -136,6 +159,8 @@ class App extends React.Component {
                        {/* Attach commands component when device selected*/}
                        {this.state.selectedDevice && <Commands handleSelectedCommandSubmit={::this.executeSelectedCommand}
                                                                commandOutput={this.state.commandOutput}/>}
+                       {/* Attach commands component when device selected*/}
+                       {this.state.selectedDevice && <Packages handleFilesInstallSubmit={::this.installSelectedFiles}/>}
                     </div>
                     {/* Attach footer component */}
                     <Footer selectedDevice={this.state.selectedDevice} />

@@ -76,10 +76,12 @@ dl.inline-flex-description-list dd {
     flex: 0 0 60%
 }
 
-.commands {
+.commands .form-group {
+  margin: 0;
 }
 
-.commands h4 {
+.commands h4, .packages h4 {
+  width: 100%;
   text-align: center;
   margin: 0;
   padding: 10px;
@@ -125,4 +127,34 @@ dl.inline-flex-description-list dd {
   width: calc(100% - 10px);
   max-height: 8.3rem;
   resize: vertical;
+}
+
+.packages{
+  display: flex;
+  flex-flow: row wrap;
+}
+
+.drag-n-drop-for-packages {
+  width: calc(50% - 10px);
+  height: 6rem;
+  line-height: 5rem;
+  border: 5px dotted #ccc;
+  border-radius: 1rem;
+  margin: 5px 5px 0;
+}
+.drag-n-drop-for-packages p {
+  margin: 0;
+  text-align: center;
+}
+
+.form-control.files-to-install {
+  margin: 5px 5px 0;
+  width: calc(50% - 10px - 55px);
+  max-height: 8.3rem;
+  resize: none;
+}
+
+.btn.install-packages-padded-buton {
+  margin: 5px 5px 0 0;
+  max-width: 50px;
 }
