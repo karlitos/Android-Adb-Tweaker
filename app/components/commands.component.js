@@ -28,6 +28,18 @@ const commandList = [
   {
     command: 'pm hide com.android.systemui',
     description: 'PM HIDE COM.ANDROID.SYSTEMUI - Disables wallpaper, navigation (buttons) and notification bar (Android 5.0 and newer)'
+  },
+  {
+    command: 'content insert --uri content://settings/system --bind name:s:accelerometer_rotation --bind value:i:0',
+    description: '... accelerometer_rotation --bind value:i:0 - Disable automatic screen rotation'
+  },
+  {
+    command: 'content insert --uri content://settings/system --bind name:s:user_rotation --bind value:i:1',
+    description: '... user_rotation --bind value:i:1 - Rotate to landscape'
+  },
+  {
+    command: 'content insert --uri content://settings/system --bind name:s:user_rotation --bind value:i:0',
+    description: '... user_rotation --bind value:i:0 - Rotate to portrait'
   }
 ]
 
