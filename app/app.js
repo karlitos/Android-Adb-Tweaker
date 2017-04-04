@@ -34,7 +34,8 @@ class App extends React.Component {
         // Initial State
         this.state = {
             deviceList: [],
-            selectedDevice: undefined
+            selectedDevice: undefined,
+            commandOutput: ''
         }
     }
 
@@ -87,6 +88,7 @@ class App extends React.Component {
     executeSelectedCommand(command) {
       // TODO handle device not found - e.g. disconnected
       // TODO handle command empty or wrong type
+      let self = this;
       // reference to the selected device
       let device = this.state.selectedDevice;
       this.adbClient.shell(device, command)
@@ -96,12 +98,18 @@ class App extends React.Component {
       .then(adb.util.readAll)
       .then(function(output) {
         console.log('[%s] %s', device, output.toString().trim())
+        self.setState({
+            commandOutput: output.toString().trim()
+        });
       })
       .then(function() {
         console.log('Done.')
       })
       .catch(function(err) {
         console.error('Something went wrong:', err.stack)
+        self.setState({
+            commandOutput: 'Something went wrong when executing adb command: ' + err.stack
+        });
       })
       event.preventDefault();
     }
@@ -126,7 +134,8 @@ class App extends React.Component {
                                  deviceList={this.state.deviceList}
                                  selectedDevice={this.state.selectedDevice}/>
                        {/* Attach commands component when device selected*/}
-                       {this.state.selectedDevice && <Commands handleSelectedCommandSubmit={::this.executeSelectedCommand}/>}
+                       {this.state.selectedDevice && <Commands handleSelectedCommandSubmit={::this.executeSelectedCommand}
+                                                               commandOutput={this.state.commandOutput}/>}
                     </div>
                     {/* Attach footer component */}
                     <Footer selectedDevice={this.state.selectedDevice} />

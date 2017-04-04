@@ -102,6 +102,8 @@ dl.inline-flex-description-list dd {
 
 .form-control.command-selection-dropdown {
   background-color: #eee;
+  margin: 0 5px;
+  width: calc(100% - 10px);
 }
 
 .form-control.command-selection-dropdown:focus {
@@ -109,11 +111,18 @@ dl.inline-flex-description-list dd {
 }
 
 .form-control.padded-command-input {
-  width: calc(100% - 5rem);
+  width: calc(100% - 8.5rem);
   margin-top: 5px;
 }
 
 .btn.command-execute-padded-buton {
   margin-top: 10px;
   margin-right: 5px;
+}
+
+.form-control.executed-command-output {
+  margin: 5px 5px 0;
+  width: calc(100% - 10px);
+  max-height: 8.3rem;
+  resize: vertical;
 }
