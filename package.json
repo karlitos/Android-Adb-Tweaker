@@ -1,5 +1,5 @@
 {
-  "name": "electron-quick-start",
+  "name": "Android-Adb-Tweaker",
   "version": "1.0.0",
   "description": "A Electron application using the node implementation of the client for the Android Debug Bridge server to manage your Android device.",
   "main": "main.js",
@@ -9,8 +9,8 @@
     "start-dev": "concurrently --prefix \"[{name}]\" --names \"HTTP,WATCH\" -c \"bgBlue.bold,bgMagenta.bold\"  \"npm run debug\" \"gulp watch\"",
     "bundle": "browserify app/app.js -t babelify -o public/js/bundle.js --debug --verbose"
   },
-  "author": "GitHub",
-  "repository": "",
+  "author": "Karel Mácha",
+  "repository": "https://github.com/karlitos/Android-Adb-Tweaker",
   "keywords": [
     "Electron",
     "Protonkit",
