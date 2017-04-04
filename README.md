@@ -1,4 +1,4 @@
-# electron-quick-start
+# Android Adb Tweaker
 
 A Electron application using the node implementation of the client for the Android Debug Bridge server to manage your Android device.
 Still WIP, only list connected devies at the moment.
