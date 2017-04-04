@@ -88,8 +88,32 @@ dl.inline-flex-description-list dd {
 }
 
 .commands table.table-striped {
-  border-bottom: 1px solid #ddd; 
+  border-bottom: 1px solid #ddd;
 }
 .commands table.table-striped tbody td:first-child {
   font-style: italic;
+}
+
+.command-selection-padded-label{
+  padding-left: 10px;
+  margin-bottom: -0.5rem;
+  line-height: 2rem;
+}
+
+.form-control.command-selection-dropdown {
+  background-color: #eee;
+}
+
+.form-control.command-selection-dropdown:focus {
+  box-shadow: unset;
+}
+
+.form-control.padded-command-input {
+  width: calc(100% - 5rem);
+  margin-top: 5px;
+}
+
+.btn.command-execute-padded-buton {
+  margin-top: 10px;
+  margin-right: 5px;
 }

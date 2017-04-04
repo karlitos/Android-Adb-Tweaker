@@ -77,15 +77,12 @@ class App extends React.Component {
             })
             .catch(function(err) {
                 console.error('Something went wrong:', err.stack)
+                if(err.stack.includes('device unauthorized')) {
+                  alert('Please check your connected devices and authorize USB-Debugging for this maschine');
+                }
             });
     };
 
-    handleSelectCommand(event){
-      console.log(event.currentTarget.firstChild.innerText);
-      this.setState({
-          selectedCommand: event.currentTarget.firstChild.innerText
-      });
-    }
     // call when component mounted (was created an attached)
     componentDidMount() {
         this.listAdbDevices();
@@ -106,8 +103,7 @@ class App extends React.Component {
                                  deviceList={this.state.deviceList}
                                  selectedDevice={this.state.selectedDevice}/>
                        {/* Attach commands component when device selected*/}
-                       {this.state.selectedDevice && <Commands selectCommand={::this.handleSelectCommand}
-                                                               selectedCommand={this.state.selectedCommand}/>}
+                       {this.state.selectedDevice && <Commands adbClient={this.adbClient}/>}
                     </div>
                     {/* Attach footer component */}
                     <Footer selectedDevice={this.state.selectedDevice} />
