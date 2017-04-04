@@ -83,6 +83,27 @@ class App extends React.Component {
             });
     };
 
+    // handles the execution of the selected commands
+    executeSelectedCommand(command) {
+      // reference to the selected device
+      let device = this.state.selectedDevice;
+      this.adbClient.shell(device, command)
+      // Use the readAll() utility to read all the content without
+      // having to deal with the events. `output` will be a Buffer
+      // containing all the output.
+      .then(adb.util.readAll)
+      .then(function(output) {
+        console.log('[%s] %s', device.id, output.toString().trim())
+      })
+      .then(function() {
+        console.log('Done.')
+      })
+      .catch(function(err) {
+        console.error('Something went wrong:', err.stack)
+      })
+      event.preventDefault();
+    }
+
     // call when component mounted (was created an attached)
     componentDidMount() {
         this.listAdbDevices();
@@ -103,7 +124,7 @@ class App extends React.Component {
                                  deviceList={this.state.deviceList}
                                  selectedDevice={this.state.selectedDevice}/>
                        {/* Attach commands component when device selected*/}
-                       {this.state.selectedDevice && <Commands adbClient={this.adbClient}/>}
+                       {this.state.selectedDevice && <Commands handleSelectedCommandSubmit={::this.executeSelectedCommand}/>}
                     </div>
                     {/* Attach footer component */}
                     <Footer selectedDevice={this.state.selectedDevice} />

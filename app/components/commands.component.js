@@ -19,29 +19,23 @@ class Commands extends React.Component {
   constructor(props) {
     super(props);
     this.state = {selectedCommand: ''};
-
-    this.handleSelectedCommandChange = this.handleSelectedCommandChange.bind(this);
-    this.handleSelectedCommandSubmit = this.handleSelectedCommandSubmit.bind(this);
   }
-  // hndles the selection of the command
+  // handles the selection of the command
   handleSelectedCommandChange(event) {
       this.setState({selectedCommand: event.target.value});
-      console.log('Command change', event.target.value, this.state.selectedCommand);
-  }
-  // handles the execution of the commands
-  handleSelectedCommandSubmit(event) {
-    alert('A command was executed: ' + this.state.selectedCommand);
-    event.preventDefault();
   }
 
   render() {
     // method constructing the command selection from the command list
     let commandSelection = (
-          <select className="form-control command-selection-dropdown" onClick={this.handleSelectedCommandChange}>
-          {commandList.map((item, index) => {
-              return <option key={index} value={item.command}>{item.description}</option>
-            })
-          }
+          <select className="form-control command-selection-dropdown"
+                  onClick={::this.handleSelectedCommandChange}
+                  defaultValue="placeholder">
+            <option value="placeholder" disabled>Click to select command</option>
+            {commandList.map((item, index) => {
+                return <option key={index} value={item.command}>{item.description}</option>
+              })
+            }
           </select>
     );
 
@@ -55,9 +49,9 @@ class Commands extends React.Component {
                  className="form-control padded-command-input"
                  placeholder="You can also type your own command"
                  value={this.state.selectedCommand}
-                 onChange={this.handleSelectedCommandChange}/>
+                 onChange={::this.handleSelectedCommandChange}/>
           <button className="btn btn-default pull-right command-execute-padded-buton"
-                  onClick={this.handleSelectedCommandSubmit}>
+                  onClick={() => this.props.handleSelectedCommandSubmit(this.state.selectedCommand)}>
                   Execute
             </button>
         </div>
