@@ -1,0 +1,36 @@
+{
+  "name": "electron-quick-start",
+  "version": "1.0.0",
+  "description": "A minimal Electron application",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron main.js",
+    "watch": "watchify app/app.js -t babelify -o public/js/bundle.js --debug --verbose &&electron main.js",
+    "debug": "npm run start -- --devTools=true"
+  },
+  "author": "Karel Mácha",
+  "repository": "https://github.com/electron/electron-quick-start",
+  "keywords": [
+    "Electron",
+    "quick",
+    "start",
+    "tutorial",
+    "demo"
+  ],
+  "author": "GitHub",
+  "license": "CC0-1.0",
+  "devDependencies": {
+    "babel-preset-react": "^6.16.0",
+    "babel-preset-electron": "^0.37.8",
+    "babelify": "^7.3.0",
+    "electron": "^1.4.1",
+    "electron-reload": "^1.1.0",
+    "adbkit": "^2.7.0",
+    "bluebird": "3.4.7",
+    "react": "^15.4.0",
+    "react-autocomplete": "^1.4.0",
+    "react-dom": "^15.4.0",
+    "adbkit": "^2.7.0",
+    "bluebird": "3.4.7"
+  }
+}
