@@ -18,7 +18,7 @@ class Packages extends React.Component {
     });
     event.preventDefault();
   };
-
+  // prevent default handling of events
   preventDefaultHandling(event) {
     event.preventDefault();
   }
@@ -38,11 +38,12 @@ class Packages extends React.Component {
         <textarea className="form-control files-to-install"
                   placeholder="Slected files to install"
                   rows="3" readOnly
-                  value={this.state.filesToInstall.map((file) => {return file.name})}>
+                  value={this.state.filesToInstall.map((file) => {return file.name}).join('\n')}>
         </textarea>
-        <button className="btn btn-positive pull-right install-packages-padded-buton"
-                onClick={() => this.props.handleFilesInstallSubmit(this.state.filesToInstall)}>
-                Install
+        <button className={`btn ${this.props.adbClientBusy ? 'btn-negative' : 'btn-positive'} pull-right install-packages-padded-buton`}
+                onClick={() => this.props.handleFilesInstallSubmit(this.state.filesToInstall)}
+                disabled={this.props.adbClientBusy}>
+                {this.props.adbClientBusy ? 'Busy' : 'Install'}
         </button>
       </div>
     )

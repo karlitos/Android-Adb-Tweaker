@@ -156,5 +156,5 @@ dl.inline-flex-description-list dd {
 
 .btn.install-packages-padded-buton {
   margin: 5px 5px 0 0;
-  max-width: 50px;
+  width: 50px;
 }
