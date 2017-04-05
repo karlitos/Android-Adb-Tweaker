@@ -3,10 +3,15 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 // using window.require instead of require is one possibility of avoiding the conflict between electron's and browserify's require function.
 const remote = window.require('electron').remote;
+const app = remote.app;
 // Bluebird JavaScript promises library
 const Promise = window.require('bluebird');
 // adb kit
 const adb = window.require('adbkit');
+// few basic operating-system related utility functions
+const os = require('os');
+// file system
+const fs = remote.require('fs');
 
 // Header component
 import Header from './components/header.component';
@@ -22,9 +27,6 @@ import Commands from './components/commands.component';
 
 // Packages component
 import Packages from './components/packages.component';
-
-//Import Container component
-//import AppContainer from './containers/app.container'
 
 class App extends React.Component {
     // Constructor
@@ -124,7 +126,7 @@ class App extends React.Component {
     installSelectedFiles(files) {
       // [checked] TODO implement client busy - promise map ...
       // [checked] TODO handle empty input
-      // TODO pass output back to cpomponent      
+      // TODO pass output back to cpomponent
 
       let self = this;
       // reference to the selected device
@@ -157,6 +159,51 @@ class App extends React.Component {
       })
     }
 
+    // handles the screenshot capturing on selected device
+    takeScreenshot() {
+      let self = this;
+      // reference to the selected device
+      let device = this.state.selectedDevice;
+
+      this.setState({
+          adbClientBusy: true
+      });
+      this.adbClient.screencap(device)
+      .then(function(screencap) {
+
+        remote.dialog.showSaveDialog({ title: 'Save the captured screenshot',
+                                       defaultPath: app.getPath('home') + '/screenshot.png'
+                                     }, function (filePath) {
+                                        // dialog aborted
+                                        if (!filePath) {
+                                          self.setState({
+                                              adbClientBusy: false
+                                          });
+                                          return
+                                        };
+                                        let out = fs.createWriteStream(filePath);
+
+                                        screencap.on('error', console.log)
+                                        .on('data', function(chunk) {
+                                          out.write(chunk);
+                                        })
+                                        .on('end', function() {
+                                          // close the file stream
+                                          out.end();
+                                          self.setState({
+                                              adbClientBusy: false
+                                          });
+                                        });
+                                      });
+      }) // end of promise.then
+      .catch(function(err) {
+        console.error('Something went wrong during screenshot capture on %s: '+  err.stack, device);
+        self.setState({
+            adbClientBusy: false
+        });
+      })
+    }
+
     // call when component mounted (was created an attached)
     componentDidMount() {
         this.listAdbDevices();
@@ -168,7 +215,9 @@ class App extends React.Component {
                     {/* Attach header component*/}
                     {/* :: == .bind.this() */}
                     <Header title={this.props.appTitle}
-                            closeApp={::this.closeApp}/>
+                            takeScreenshot={::this.takeScreenshot}
+                            closeApp={::this.closeApp}
+                            selectedDevice={this.state.selectedDevice}/>
                     {/* Attach window-content photon element wrapper*/}
                     <div className="window-content window-content-vertical">
                         {/* :: == .bind.this() */}
@@ -193,4 +242,4 @@ class App extends React.Component {
 // Render to index.html
 // Rendering components directly into document.body is discouraged
 // ReactDOM.render( <App />, document.body);
-ReactDOM.render( <App appTitle="App name"/>, document.getElementById('main-app-window'));
+ReactDOM.render( <App appTitle="Android Adb Tweaker"/>, document.getElementById('main-app-window'));
