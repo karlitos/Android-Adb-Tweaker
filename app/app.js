@@ -122,18 +122,38 @@ class App extends React.Component {
 
     // handles the installation of the selected APKs
     installSelectedFiles(files) {
-      // TODO implement coient busy - promise map ...
+      // [checked] TODO implement client busy - promise map ...
+      // [checked] TODO handle empty input
+      // TODO pass output back to cpomponent      
+
       let self = this;
       // reference to the selected device
       let device = this.state.selectedDevice;
-      files.forEach((file) => {
-        this.adbClient.install(device, file.path)
+      this.setState({
+          adbClientBusy: true
+      });
+      // Install all files sequentially
+      Promise.each(files, function(file, index){
+        return self.adbClient.install(device, file.path)
         .then(function() {
           console.log('%s installed on device %s', file.name, device)
         })
         .catch(function(err) {
           console.error('Something went wrong when installing %s on %s: '+  err.stack, file.name, device)
         })
+      }).then(function() {
+        console.log("All done");
+        // client not busy anymore
+        self.setState({
+          adbClientBusy: false
+        });
+      })
+      .catch(function(err) {
+        console.log("Argh, broken: " + err.message);
+        // client not busy anymore
+        self.setState({
+          adbClientBusy: false
+        });
       })
     }
 
@@ -160,10 +180,11 @@ class App extends React.Component {
                        {this.state.selectedDevice && <Commands handleSelectedCommandSubmit={::this.executeSelectedCommand}
                                                                commandOutput={this.state.commandOutput}/>}
                        {/* Attach commands component when device selected*/}
-                       {this.state.selectedDevice && <Packages handleFilesInstallSubmit={::this.installSelectedFiles}/>}
+                       {this.state.selectedDevice && <Packages handleFilesInstallSubmit={::this.installSelectedFiles}
+                                                               adbClientBusy={this.state.adbClientBusy}/>}
                     </div>
                     {/* Attach footer component */}
-                    <Footer selectedDevice={this.state.selectedDevice} />
+                    <Footer selectedDevice={this.state.selectedDevice}/>
                 </div>
         );
     }
