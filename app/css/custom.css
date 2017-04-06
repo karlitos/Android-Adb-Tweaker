@@ -1,9 +1,18 @@
-.app-wrapping-container {
+                                                    .app-wrapping-container {
   position: absolute;
   height: 100%;
   width: 100%;
   display: flex;
   flex-flow: column nowrap;
+}
+
+.rotate-element-1s {
+  animation: spin 1s linear;
+}
+
+@keyframes spin {
+  0%   {transform: rotate(0deg)}
+  100% {transform: rotate(-360deg)}
 }
 
 .window-content.window-content-vertical {

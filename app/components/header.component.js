@@ -13,7 +13,7 @@ class Header extends React.Component {
                     </button>}
                     <button className="btn btn-negative"
                             onClick={this.props.closeApp}>
-                      <span className="icon icon-text icon-cancel-circled" style={{color: 'black'}}></span>
+                      <span className="icon icon-text icon-cancel-circled rotate-element" style={{color: 'black'}}></span>
                       Close
                     </button>
                 </div>

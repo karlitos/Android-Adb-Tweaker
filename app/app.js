@@ -58,37 +58,50 @@ class App extends React.Component {
         });
     };
     // method returning attached devices recognized by ADB
-    listAdbDevices(){
+    listAdbDevices(event){
+      // when call performed after click on the "list devices" buttons
+      if (event) {
+        let target = event.target;
+        let animationClassName = 'rotate-element-1s';
+        let originalClassName = target.firstChild.className;
+        if (!(originalClassName.indexOf(animationClassName) !== -1)){
+          // append new class
+          target.firstChild.className += ` ${animationClassName}`;
+          // append old className after timeout
+          setTimeout(function(){ target.firstChild.className =  originalClassName;}, 1000);
+         }
+      }
+
         let self = this;
         let detailedDeviceList = [];
 
-        this.adbClient.listDevices()
-            .then(function(devices) {
-                return Promise.map(devices, function(device) {
-                    return self.adbClient.getProperties(device.id)
-                        .then(function(property) {
-                          // we might keep all properties
-                            detailedDeviceList.push({
-                                id: device.id,
-                                manufacturer: property['ro.product.manufacturer'],
-                                name: property['ro.product.display'],
-                                model: property['ro.product.model']
-                            })
-                        })
-                })
+      this.adbClient.listDevices()
+          .then(function(devices) {
+              return Promise.map(devices, function(device) {
+                  return self.adbClient.getProperties(device.id)
+                      .then(function(property) {
+                        // we might keep all properties
+                          detailedDeviceList.push({
+                              id: device.id,
+                              manufacturer: property['ro.product.manufacturer'],
+                              name: property['ro.product.display'],
+                              model: property['ro.product.model']
+                          })
+                      })
+              })
 
-            })
-            .then(function() {
-                if (detailedDeviceList.length > 0) {
-                    self.setState({deviceList: detailedDeviceList});
-                }
-            })
-            .catch(function(err) {
-                console.error('Something went wrong:', err.stack)
-                if(err.stack.includes('device unauthorized')) {
-                  alert('Please check your connected devices and authorize USB-Debugging for this maschine');
-                }
-            });
+          })
+          .then(function() {
+              if (detailedDeviceList.length > 0) {
+                  self.setState({deviceList: detailedDeviceList});
+              }
+          })
+          .catch(function(err) {
+              console.error('Something went wrong:', err.stack)
+              if(err.stack.includes('device unauthorized')) {
+                alert('Please check your connected devices and authorize USB-Debugging for this maschine');
+              }
+          });
     };
 
     // handles the execution of the selected commands
