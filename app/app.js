@@ -61,14 +61,14 @@ class App extends React.Component {
     listAdbDevices(event){
       // when call performed after click on the "list devices" buttons
       if (event) {
-        let target = event.target;
-        let animationClassName = 'rotate-element-1s';
+        let target = event.currentTarget;
+        let animationClassName = 'rotate-element-500ms';
         let originalClassName = target.firstChild.className;
         if (!(originalClassName.indexOf(animationClassName) !== -1)){
           // append new class
           target.firstChild.className += ` ${animationClassName}`;
           // append old className after timeout
-          setTimeout(function(){ target.firstChild.className =  originalClassName;}, 1000);
+          setTimeout(function(){ target.firstChild.className =  originalClassName;}, 500);
          }
       }
 

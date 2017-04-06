@@ -6,11 +6,11 @@
   flex-flow: column nowrap;
 }
 
-.rotate-element-1s {
-  animation: spin 1s linear;
+.rotate-element-500ms {
+  animation: turn 0.5s linear;
 }
 
-@keyframes spin {
+@keyframes turn {
   0%   {transform: rotate(0deg)}
   100% {transform: rotate(-360deg)}
 }
@@ -166,4 +166,21 @@ dl.inline-flex-description-list dd {
 .btn.install-packages-padded-buton {
   margin: 5px 5px 0 0;
   width: 50px;
+}
+
+.btn.install-packages-padded-buton.busy {
+  white-space: normal;
+  line-height: 1.5rem
+}
+
+.icon.icon-hourglass.icon-hourglass-busy {
+  display: inline-block;
+  float: none;
+  color: black;
+  animation: spin 2s Infinite linear;
+}
+
+@keyframes spin {
+  0%   {transform: rotateX(0deg)}
+  100% {transform: rotateX(-360deg)}
 }

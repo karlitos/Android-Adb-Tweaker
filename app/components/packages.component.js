@@ -40,10 +40,11 @@ class Packages extends React.Component {
                   rows="3" readOnly
                   value={this.state.filesToInstall.map((file) => {return file.name}).join('\n')}>
         </textarea>
-        <button className={`btn ${this.props.adbClientBusy ? 'btn-negative' : 'btn-positive'} pull-right install-packages-padded-buton`}
+        <button className={`btn ${this.props.adbClientBusy ? 'btn-negative busy' : 'btn-positive'} pull-right install-packages-padded-buton`}
                 onClick={() => this.props.handleFilesInstallSubmit(this.state.filesToInstall)}
                 disabled={this.props.adbClientBusy}>
                 {this.props.adbClientBusy ? 'Busy' : 'Install'}
+                {this.props.adbClientBusy && <span className="icon icon-hourglass icon-hourglass-busy"></span>}
         </button>
       </div>
     )
